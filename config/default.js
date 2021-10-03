@@ -10,5 +10,6 @@ module.exports = {
             pass: process.env.DB_PASS,
             dbName: 'dev'
         }
-    }
+    },
+    jwtSecret: process.env.JWT_KEY
 }
