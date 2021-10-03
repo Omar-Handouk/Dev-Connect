@@ -7,9 +7,7 @@ const config = require('config');
 const jwt = require ('jsonwebtoken');
 
 
-const index = async () => {
-    return (await User.find({}));
-};
+const index = async () => await User.find({}).select('-password');
 
 const create = async (data) => {
     /*
@@ -19,8 +17,6 @@ const create = async (data) => {
     * Save details in DB
     * Return JWT
     */
-
-    try {
         const { name, email, password } = data;
 
         let user = await User.findOne({email});
@@ -45,14 +41,15 @@ const create = async (data) => {
         const token = jwt.sign({ user: { id: res.id, email, avatar }}, config.get('jwtSecret'), {expiresIn: '5 days'});
 
         return Promise.resolve(token);
-
-    } catch (err) {
-        return Promise.reject(err.message);
-    }
 };
 
 const show = async (userId) => {
-    return (await User.findById(userId));
+    const user = await User.findById(userId).select('-password');
+    if (!user) {
+        return Promise.reject(new Error('User ID not found'));
+    }
+
+    return Promise.resolve(user);
 };
 
 const update = async (userId, data) => {};
