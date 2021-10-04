@@ -1,11 +1,13 @@
 'use strict';
 
 const router = require('express').Router();
-const { index, create, show, update, destroy } = require('../../../services/profiles-service');
 const { validationResult } = require('express-validator');
+const { index, create, show, update, destroy } = require('../../../services/profiles-service');
 const validation = require('../../../../validations/profile.validation');
 const auth = require('../../../../middleware/authVerf');
 const time = require('../../../../utils/time');
+const checkObjectId = require('../../../../middleware/checkObjectId');
+const userExists = require('../../../../middleware/userExists');
 
 router.get('/', async (req, res) => {
     try {
@@ -34,7 +36,7 @@ router.post('/', auth, validation, async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', checkObjectId('id'), userExists('id'), async (req, res) => {
     try {
         const profile = await show(req.params.id);
 
@@ -45,7 +47,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', auth, checkObjectId('id'), userExists('id'), async (req, res) => {
     try {
         const profile = await update(req.user.id, req.body);
 
@@ -56,8 +58,7 @@ router.put('/:id', auth, async (req, res) => {
     }
 });
 
-
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', auth, checkObjectId('id'), userExists('id'), async (req, res) => {
     try {
         const profile = await destroy(req.user.id);
 

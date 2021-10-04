@@ -1,9 +1,13 @@
 'use strict';
 
 const router = require('express').Router();
+const { body, validationResult } = require('express-validator');
+const { index, create, show, update } = require('../../../services/users-service');
+const checkObjectId = require('../../../../middleware/checkObjectId');
 const validation = require('../../../../validations/user.validation');
-const { validationResult } = require('express-validator');
-const { index, create, show, update, destroy } = require('../../../services/users-service');
+const auth = require('../../../../middleware/authVerf');
+const userExists = require('../../../../middleware/userExists');
+const time = require('../../../../utils/time');
 
 router.get('/', async (req, res) => {
     try {
@@ -34,7 +38,7 @@ router.post('/', validation, async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', checkObjectId('id'), userExists('id'), async (req, res) => {
     try {
         const user = await show(req.params.id);
     
@@ -45,10 +49,30 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => res.send('Update user'));
+router.put('/:id',
+    auth,
+    checkObjectId('id'),
+    userExists('id'),
+    body('avatar', 'Avatar field is not allowed').isEmpty(),
+    body('date', 'Date field is not allowed').isEmpty(), async (req, res) => {
 
-router.patch('/:id', async (req, res) => res.send('Patch user'));
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
 
-router.delete('/:id', async (req, res) => res.send('Delete User'));
+        if (Object.keys(req.body).length === 0) {
+            return res.status(400).json({ errors: [ { msg: 'No information provided' } ] });
+        }
+
+        try {
+            const token = await update(req.params.id, req.body);
+
+            res.status(200).json({ jwt: token });
+        } catch (err) {
+            console.error(`[Error][${time()}][${__filename}] > ${err.message}`);
+            res.status(400).json({ errors: [ { msg: err.message } ]});
+        }
+});
 
 module.exports = router;
