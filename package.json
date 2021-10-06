@@ -5,7 +5,9 @@
   "main": "source/index.js",
   "scripts": {
     "start": "node source/index.js",
-    "restart": "nodemon source/index.js"
+    "server": "nodemon source/index.js --ignore client/",
+    "client": "npm start --prefix=client",
+    "dev": "concurrently --names=\"SERVER,CLIENT\" --prefix=\"[{name}][{time}][{pid}]\" --prefix-colors=\"black.bgCyan.bold,black.bgGreen.bold\" --kill-others \"npm run server\" \"npm run client\""
   },
   "author": "Omar Handouk",
   "engines": {
@@ -34,6 +36,7 @@
     "@types/jsonwebtoken": "^8.5.5",
     "@types/morgan": "^1.9.3",
     "@types/node": "^16.10.2",
+    "concurrently": "^6.3.0",
     "nodemon": "^2.0.13"
   }
 }
