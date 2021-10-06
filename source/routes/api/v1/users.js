@@ -1,12 +1,12 @@
 'use strict';
 
 const router = require('express').Router();
-const { body, validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 const { index, create, show, update } = require('../../../services/users-service');
 const checkObjectId = require('../../../../middleware/checkObjectId');
-const validation = require('../../../../validations/user.validation');
+const { createValidation, updateValidation } = require('../../../../validations/user.validation');
 const auth = require('../../../../middleware/authVerf');
-const userExists = require('../../../../middleware/userExists');
+const resourceExists = require('../../../../middleware/resourceWithIdExists');
 const time = require('../../../../utils/time');
 
 router.get('/', async (req, res) => {
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', validation, async (req, res) => {
+router.post('/', createValidation, async (req, res) => {
 
     const errors = validationResult(req);
     
@@ -38,7 +38,7 @@ router.post('/', validation, async (req, res) => {
     }
 });
 
-router.get('/:id', checkObjectId('id'), userExists('id'), async (req, res) => {
+router.get('/:id', checkObjectId('id'), resourceExists('id', 'user'), async (req, res) => {
     try {
         const user = await show(req.params.id);
     
@@ -52,9 +52,8 @@ router.get('/:id', checkObjectId('id'), userExists('id'), async (req, res) => {
 router.put('/:id',
     auth,
     checkObjectId('id'),
-    userExists('id'),
-    body('avatar', 'Avatar field is not allowed').isEmpty(),
-    body('date', 'Date field is not allowed').isEmpty(), async (req, res) => {
+    resourceExists('id', 'user'),
+    updateValidation, async (req, res) => {
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
