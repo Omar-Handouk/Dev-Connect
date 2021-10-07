@@ -1,7 +1,13 @@
 import { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
+
+import { setAlertWithTimeout } from '../../actions/alertAction';
 import RegisterUI from './RegisterUI';
 
-const Register = () => {
+const Register = (props) => {
+
+    const { setAlertWithTimeout } = props;
 
     const [formData, setFormData] = useState({
         name: '',
@@ -18,7 +24,7 @@ const Register = () => {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            alert('Password do not match');
+           setAlertWithTimeout('Password do not match', 'danger');
         } else {
             alert('Success');
             console.info({ name, email, password, confirmPassword });
@@ -30,4 +36,8 @@ const Register = () => {
     );
 }
 
-export default Register;
+Register.propTypes = {
+    setAlertWithTimeout: PropTypes.func.isRequired,
+}
+
+export default connect(null, { setAlertWithTimeout })(Register);
