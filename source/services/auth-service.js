@@ -14,7 +14,7 @@ const jwt = require('jsonwebtoken');
 const index = async (data) => {
     const { id } = data;
 
-    let user = await User.findById(id);
+    let user = await User.findById(id, '-password');
     if (!user) {
         return Promise.reject(new Error('User ID not found'));
     }

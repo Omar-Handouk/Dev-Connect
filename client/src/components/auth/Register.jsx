@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { setAlertWithTimeout } from '../../actions/alertAction';
+import { registerAsync } from '../../actions/authAction';
 import RegisterUI from './RegisterUI';
 
-const Register = (props) => {
-
-    const { setAlertWithTimeout } = props;
+const Register = ({ setAlertWithTimeout, registerAsync, isAuthenticated }) => {
 
     const [formData, setFormData] = useState({
         name: '',
@@ -26,10 +26,11 @@ const Register = (props) => {
         if (password !== confirmPassword) {
            setAlertWithTimeout('Password do not match', 'danger');
         } else {
-            alert('Success');
-            console.info({ name, email, password, confirmPassword });
+            registerAsync({name, email, password});
         }
     };
+
+    if (isAuthenticated) return (<Redirect to='/dashboard' />);
 
     return (
         <RegisterUI {...formData} onChange={onChange} onSubmit={onSubmit}/>
@@ -38,6 +39,12 @@ const Register = (props) => {
 
 Register.propTypes = {
     setAlertWithTimeout: PropTypes.func.isRequired,
-}
+    registerAsync: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
+};
 
-export default connect(null, { setAlertWithTimeout })(Register);
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { setAlertWithTimeout, registerAsync })(Register);
