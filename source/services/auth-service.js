@@ -15,11 +15,12 @@ const index = async (data) => {
     const { id } = data;
 
     let user = await User.findById(id, '-password');
+    
     if (!user) {
         return Promise.reject(new Error('User ID not found'));
     }
 
-    return Promise.resolve(data);
+    return Promise.resolve({id: user._id, name: user.name, email: user.email, avatar: user.avatar});
 }
 
 const create = async (data) => {

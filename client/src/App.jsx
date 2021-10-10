@@ -2,11 +2,13 @@ import { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import setAuthToken from './utils/setAuthToken';
 import { loadUserAsync } from './actions/authAction';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
-import NonLandingPages from './NonLandingPages';
+import NonLandingPages from './routing/NonLandingPages';
+
 import './App.css';
 
 // Check if a token is in storage

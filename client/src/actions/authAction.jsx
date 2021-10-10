@@ -2,6 +2,7 @@ import api from '../utils/api';
 import { setAlertWithTimeout } from './alertAction';
 import setAuthToken from '../utils/setAuthToken';
 import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGOUT, LOGIN_SUCCESS, LOGIN_FAIL } from "./types";
+import { clearProfile } from './profileAction';
 
 export const registerSuccess = data => ({
     type: REGISTER_SUCCESS,
@@ -105,11 +106,15 @@ export const loginAsync = data => async (dispatch) => {
         dispatch(setAlertWithTimeout('Logged in successfully', 'success'));
     } catch (err) {
         const errors = err.response.data.errors;
-
         if (errors) {
             errors.forEach(error => dispatch(setAlertWithTimeout(error.msg, 'danger')));
         }
 
         dispatch(loginFail());
     }
+};
+
+export const logoutAndClearProfile = () => async (dispatch) => {
+    dispatch(logout());
+    dispatch(clearProfile());
 };

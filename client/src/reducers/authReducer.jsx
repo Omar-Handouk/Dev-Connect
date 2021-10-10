@@ -46,7 +46,7 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 token: null,
                 isAuthenticated: false,
-                loading: false,
+                isLoading: false,
                 user: null
             };
         

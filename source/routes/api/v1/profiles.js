@@ -43,7 +43,7 @@ router.get('/:id', checkObjectId('id'), resourceExists('id', 'user'), async (req
         res.status(200).json(profile);
     } catch (err) {
         console.error(`[Error][${time()}][${__filename}] > ${err.message}`);
-        res.status(500).json({ errors: [ {msg: err.message} ]});
+        res.status(404).json({ errors: [ {msg: err.message} ]});
     }
 });
 

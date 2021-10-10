@@ -11,7 +11,7 @@ const LoginUI = (props) => {
 
             <p className="lead"><i className="fas fa-user"></i> Sign into Your Account</p>
 
-            <form className="form" onSubmit={e => onSubmit(e)}>
+            <form className="form" onSubmit={onSubmit}>
                 <div className="form-group">
                     <input
                         type="email"
@@ -19,7 +19,7 @@ const LoginUI = (props) => {
                         name="email"
                         required
                         value={email}
-                        onChange={e => onChange(e)}
+                        onChange={onChange}
                     />
                 </div>
                 <div className="form-group">
@@ -29,7 +29,7 @@ const LoginUI = (props) => {
                         name="password"
                         required
                         value={password}
-                        onChange={e => onChange(e)}
+                        onChange={onChange}
                     />
                 </div>
                 <input type="submit" className="btn btn-primary" value="Login" />
