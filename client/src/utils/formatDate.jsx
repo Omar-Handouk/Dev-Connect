@@ -1,5 +1,5 @@
-const formatData = (date) => {
+const formatDate = (date) => {
     return new Intl.DateTimeFormat().format(new Date(date));
 };
 
-export default formatData;
+export default formatDate;

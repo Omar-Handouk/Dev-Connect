@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 
 import Experience from './Experience';
+import Education from './Education';
 
 const DashboardUI = ({ user, profile, deleteAccount, deleteExperience, deleteEducation }) => {
     
@@ -29,7 +30,7 @@ const DashboardUI = ({ user, profile, deleteAccount, deleteExperience, deleteEdu
                                 <th>Company</th>
                                 <th className="hide-sm">Title</th>
                                 <th className="hide-sm">Years</th>
-                                <th></th>
+                                <th hidden />
                             </tr>
                         </thead>
                         <tbody>
@@ -44,22 +45,11 @@ const DashboardUI = ({ user, profile, deleteAccount, deleteExperience, deleteEdu
                                 <th>School</th>
                                 <th className="hide-sm">Degree</th>
                                 <th className="hide-sm">Years</th>
-                                <th />
+                                <th hidden />
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Northern Essex</td>
-                                <td className="hide-sm">Associates</td>
-                                <td className="hide-sm">
-                                    02-03-2007 - 01-02-2009
-                                </td>
-                                <td>
-                                    <button className="btn btn-danger">
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
+                            {profile.education.map(exp => <Education key={exp._id} { ...exp } deleteEducation={deleteEducation} />)}
                         </tbody>
                     </table>
 
