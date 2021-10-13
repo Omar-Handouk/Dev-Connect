@@ -10,7 +10,7 @@ const ProfileUI = ({ hasProfile, data, displaySocialInputs, setDisplaySocialInpu
         location,
         title,
         skills,
-        githubusername,
+        githubUsername,
         bio,
         twitter,
         facebook,
@@ -74,8 +74,8 @@ const ProfileUI = ({ hasProfile, data, displaySocialInputs, setDisplaySocialInpu
                     <input
                         type="text"
                         placeholder="Github Username"
-                        name="githubusername"
-                        value={githubusername}
+                        name="githubUsername"
+                        value={githubUsername}
                         onChange={onChange}
                     />
                     <small className="form-text"

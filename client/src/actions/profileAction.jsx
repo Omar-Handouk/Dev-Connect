@@ -51,6 +51,26 @@ export const noRepos = () => ({
     type: NO_REPOS
 });
 
+export const getProfilesAsync = () => async (dispatch) => {
+    dispatch(clearProfile());
+
+    const config = {
+        url: '/profiles',
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json'
+        }
+    };
+
+    try {
+        const res = await api.request(config);
+        
+        dispatch(getProfiles(res.data));
+    } catch (err) {
+        dispatch(profileError({ msg: err.response.statusText, status: err.response.status }));
+    }
+};
+
 export const getProfileById = userId => async (dispatch) => {
     const config = {
         url: `/profiles/${userId}`,
@@ -76,27 +96,6 @@ export const getCurrentProfile = () => async (dispatch, getState) => {
     if (getState().auth.user) {
         const userId = getState().auth.user.id;
         dispatch(getProfileById(userId));
-    }
-};
-
-export const getProfilesAsync = () => async (dispatch) => {
-    const config = {
-        url: '/profiles',
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json'
-        }
-    };
-
-    try {
-        const res = await api.request(config);
-
-        dispatch(getProfiles(res.data));
-    } catch (err) {
-        dispatch(profileError({
-            msg: err.response.statusText,
-            status: err.response.status
-        }));
     }
 };
 
@@ -136,7 +135,7 @@ export const createProfile = (formData, history, edit = false) => async (dispatc
             'Accept': 'application/json'
         }
     };
-
+    
     try {
         const res = await api.request(config);
 

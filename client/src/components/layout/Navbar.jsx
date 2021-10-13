@@ -10,11 +10,11 @@ const Navbar = ({ logoutAndClearProfile, isAuthenticated, isLoading }) => {
         <Fragment>
             <ul>
                 <li>
-                    <a href="#!">
+                    <Link to="/profiles">
                         <i className="fa-solid fa-terminal"></i>
                         {' '}
                         <span className="hide-sm">Developers</span>
-                    </a>
+                    </Link>
                 </li>
 
                 <li>
@@ -48,11 +48,11 @@ const Navbar = ({ logoutAndClearProfile, isAuthenticated, isLoading }) => {
         <Fragment>
             <ul>
                 <li>
-                    <a href="#!">
+                    <Link to="/profiles">
                         <i className="fa-solid fa-terminal"></i>
                         {' '}
                         <span className="hide-sm">Developers</span>
-                    </a>
+                    </Link>
                 </li>
                 {' | '}
                 
