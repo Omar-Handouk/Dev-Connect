@@ -28,7 +28,7 @@ export const Dashboard = ({ getCurrentProfile, auth, profile, deleteAccount, del
 
     return (
         <div>
-            {profile.isLoading ? <Spinner /> : 
+            {profile.isLoading || !profile ? <Spinner /> : 
             <DashboardUI 
                 user={auth.user} 
                 profile={profile.profile}
