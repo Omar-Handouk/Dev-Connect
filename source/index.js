@@ -26,9 +26,9 @@ app.use(express.urlencoded({extended: false}));
 require('./routes/api/v1/index')(app);
 
 if (ENV === 'production') {
-    app.use(express.static(path.join(__dirname, 'client', 'build')));
+    app.use(express.static(path.join(__dirname, '../', 'client', 'build')));
 
-    app.get('*', (_req, res) => res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html')));
+    app.get('*', (_req, res) => res.sendFile(path.resolve(__dirname, '../', 'client', 'build', 'index.html')));
 }
 
 app.listen(PORT, () => console.info(`[info][${time()}] > Server is running on http://localhost:${PORT}`));
