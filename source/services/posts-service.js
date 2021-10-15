@@ -100,7 +100,7 @@ const comment = async (userId, postId, data) => {
 
     await post.save();
 
-    return Promise.resolve(post.comments);
+    return Promise.resolve((await post.populate('comments.user', '-password')).comments);
 };
 
 const uncomment = async (userId, postId, commentId) => {
@@ -122,7 +122,7 @@ const uncomment = async (userId, postId, commentId) => {
 
     await post.save();
 
-    return Promise.resolve(post.comments);
+    return Promise.resolve((await post.populate('comments.user', '-password')).comments);
 };
 
 module.exports = {

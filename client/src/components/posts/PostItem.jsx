@@ -7,7 +7,7 @@ const PostItem = ({
     updateLikes, 
     deletePost, 
     auth: { isAuthenticated, isLoading, user } }) => {
-    
+
     return (
         <div className="post bg-white p-1 my-1">
             <div>
@@ -27,7 +27,12 @@ const PostItem = ({
                 <p className="post-date">
                     {`Posted on ${formatDate(date)}`}
                 </p>
-                <button type="button" className="btn btn-light" onClick={() => updateLikes(postId)}>
+                <button 
+                    type="button" 
+                    className="btn btn-light" 
+                    onClick={() => updateLikes(postId)} 
+                    style={{backgroundColor: likes.some(like => like.user === user.id) ? 'grey' : '#f4f4f4'}} >
+
                     <i className="fas fa-thumbs-up"></i>
                     <span>{` ${likes.length}`}</span>
                 </button>
