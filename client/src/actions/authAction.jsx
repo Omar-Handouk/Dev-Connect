@@ -23,8 +23,8 @@ export const loginFail = () => ({
     type: LOGIN_FAIL
 });
 
-export const logout = () => ({
-    type: LOGOUT
+export const logout = () => ({ 
+    type: LOGOUT 
 });
 
 export const loadUser = data => ({

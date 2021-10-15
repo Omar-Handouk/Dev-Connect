@@ -47,7 +47,7 @@ const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 profile: null,
-                isLoading: true,
+                isLoading: false,
                 repos: [],
             }
         case GET_REPOS:

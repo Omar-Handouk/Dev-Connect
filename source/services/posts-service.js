@@ -2,7 +2,7 @@
 
 const Post = require('../../models/Post.model');
 
-const index = async () => await Post.find({}).populate('user', '-password').populate('comments.user', '-password');
+const index = async () => await Post.find({}).populate('user', '-password').populate('comments.user', '-password').sort({date: 'desc'});
 
 const create = async (userId, data) => {
     let doc = {
@@ -13,7 +13,7 @@ const create = async (userId, data) => {
 
     const post = await Post.create(doc);
 
-    return Promise.resolve(post);
+    return Promise.resolve(await post.populate('user', '-password'));
 };
 
 const show = async (postId) => {

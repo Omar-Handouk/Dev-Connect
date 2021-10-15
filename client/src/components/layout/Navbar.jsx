@@ -2,9 +2,9 @@ import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { logoutAndClearProfile } from '../../actions/authAction';
+import { logout } from '../../actions/authAction';
 
-const Navbar = ({ logoutAndClearProfile, isAuthenticated, isLoading }) => {
+const Navbar = ({ logout, isAuthenticated, isLoading }) => {
 
     const authLinks = (
         <Fragment>
@@ -18,11 +18,11 @@ const Navbar = ({ logoutAndClearProfile, isAuthenticated, isLoading }) => {
                 </li>
 
                 <li>
-                    <a href="#!">
+                    <Link to="/posts">
                         <i className="fa-regular fa-message"></i>
                         {' '}
                         <span className="hide-sm">Posts</span>
-                    </a>
+                    </Link>
                 </li>
 
                 {' | '}
@@ -35,7 +35,7 @@ const Navbar = ({ logoutAndClearProfile, isAuthenticated, isLoading }) => {
                     </Link>
                 </li>
                 <li>
-                    <a onClick={logoutAndClearProfile} href="#!">
+                    <a onClick={logout} href="#!">
                         <i className="fas fa-sign-out-alt"></i>
                         {' '}
                         <span className='hide-sm'> Logout </span> 
@@ -87,7 +87,7 @@ const Navbar = ({ logoutAndClearProfile, isAuthenticated, isLoading }) => {
 }
 
 Navbar.propTypes = {
-    logoutAndClearProfile: PropTypes.func,
+    logout: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
     isLoading: PropTypes.bool
 };
@@ -98,7 +98,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    logoutAndClearProfile
+    logout
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

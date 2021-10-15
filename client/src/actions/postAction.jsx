@@ -11,6 +11,8 @@ import {
 } from './types';
 
 import api from '../utils/api';
+import { v4 as uuidv4 } from 'uuid';
+import { setAlertWithTimeout } from './alertAction';
 
 const config = {
     url: '',
@@ -70,6 +72,7 @@ export const removeComment = (comments) => ({
 export const getPostsAsync = () => async (dispatch) => {
     config.url = '/posts';
     config.method = 'GET';
+    delete config.data;
 
     try {
         const res = await api.request(config);
@@ -82,15 +85,19 @@ export const getPostsAsync = () => async (dispatch) => {
     }
 };
 
-export const addPostAsync = (postData) => async (dispatch) => {
+export const addPostAsync = (postText) => async (dispatch) => {
     config.url = '/posts';
     config.method = 'POST';
-    config.data = postData;
+    config.data = {
+        title: uuidv4(),
+        body: postText
+    };
 
     try {
         const res = await api.request(config);
 
         dispatch(addPost(res.data));
+        dispatch(setAlertWithTimeout('Post created successfully', 'success'));
     } catch (err) {
         const { statusText, status } = err.response;
 
@@ -101,6 +108,7 @@ export const addPostAsync = (postData) => async (dispatch) => {
 export const getPostAsync = (postId) => async (dispatch) => {
     config.url = `/posts/${postId}`;
     config.method = 'GET';
+    delete config.data;
 
     try {
         const res = await api.request(config);
@@ -122,6 +130,7 @@ export const updatePostAsync = (postId, postData) => async (dispatch) => {
         const res = await api.request(config);
 
         dispatch(updatePost(res.data));
+        dispatch(setAlertWithTimeout('Post updated successfully', 'success'));
     } catch (err) {
         const { statusText, status } = err.response;
 
@@ -132,11 +141,13 @@ export const updatePostAsync = (postId, postData) => async (dispatch) => {
 export const deletePostAsync = (postId) => async (dispatch) => {
     config.url = `/posts/${postId}`;
     config.method = 'DELETE';
-
+    delete config.data;
+    
     try {
         const res = await api.request(config);
 
         dispatch(deletePost(res.data._id));
+        dispatch(setAlertWithTimeout('Post deleted successfully', 'success'));
     } catch (err) {
         const { statusText, status } = err.response;
 
@@ -147,6 +158,7 @@ export const deletePostAsync = (postId) => async (dispatch) => {
 export const updateLikesAsync = (postId, like = true) => async (dispatch) => {
     config.url = `/posts/${postId}/${like ? 'like' : 'unlike'}`;
     config.method = 'PUT';
+    delete config.data;
 
     try {
         const res = await api.request(config);
@@ -168,6 +180,7 @@ export const addCommentAsync = (postId, commentData) => async (dispatch) => {
         const res = await api.request(config);
 
         dispatch(addComment(res.data));
+        dispatch(setAlertWithTimeout('Comment added successfully', 'success'));
     } catch (err) {
         const { statusText, status } = err.response;
 
@@ -178,11 +191,13 @@ export const addCommentAsync = (postId, commentData) => async (dispatch) => {
 export const removeCommentAsync = (postId, commentId) => async (dispatch) => {
     config.url = `/posts/${postId}/comment/${commentId}`;
     config.method = 'DELETE';
+    delete config.data;
 
     try {
         const res = await api.request(config);
 
         dispatch(removeComment(res.data));
+        dispatch(setAlertWithTimeout('Comment deleted successfully', 'success'));
     } catch (err) {
         const { statusText, status } = err.response;
 
