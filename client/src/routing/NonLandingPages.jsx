@@ -11,6 +11,7 @@ import Profiles from '../components/profiles/Profiles';
 import DeveloperProfile from '../components/developer/DeveloperProfile';
 import Posts from '../components/posts/Posts';
 import Post from '../components/post/Post'
+import NotFound from '../components/layout/NotFound'
 const NonLandingPages = () => {
     return (
         <section className="container">
@@ -27,6 +28,7 @@ const NonLandingPages = () => {
                 <PrivateRoute exact path='/add-education' component={AddEducation} />
                 <PrivateRoute exact path='/posts' component={Posts} />
                 <PrivateRoute exact path='/posts/:id' component={Post} />
+                <Route path="*" component={NotFound} />
             </Switch>
         </section>
     );
